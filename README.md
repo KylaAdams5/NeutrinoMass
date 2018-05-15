@@ -24,6 +24,10 @@ Below is the list of packages that are needed, most are typically with any pytho
 
 to install any of these packages ```conda install ``` or ```pip install ``` will work on most systems.
 
+## Running
+
+To run the code in the terminal go to the directory where the Vigilante code was saved and run ```jupyter notebook NeutrinoMass.ipynb```
+
 ## Authors
 The project was written by Kyla Adams, based on the guidelines given by Innes Bigaran for the Masters unit PHYC9007 at the University of Melbourne.
 Data was collected by Ines Bigaran
