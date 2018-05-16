@@ -16,13 +16,13 @@ Experienced programmers can download the files from the repository and run the j
 Below is the list of packages that are needed, most are typically with any python install.
 
 * Matplotlib
-* pandas
-* scipy
-* numpy
+* Pandas
+* Scipy
+* Numpy
 * ipywidgets
 * jupyter
 
-to install any of these packages ```conda install ``` or ```pip install ``` will work on most systems.
+To install any of these packages ```conda install ``` or ```pip install ``` with the desired package name after will work on most systems.
 
 ## Running
 
@@ -30,4 +30,5 @@ To run the code in the terminal go to the directory where the Vigilante code was
 
 ## Authors
 The project was written by Kyla Adams, based on the guidelines given by Innes Bigaran for the Masters unit PHYC9007 at the University of Melbourne.
-Data was collected by Ines Bigaran
+Data was collected by Ines Bigaran and Michael Nee
+Nuclear building, David Caro. Feb 2018. 
