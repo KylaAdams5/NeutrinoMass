@@ -10,61 +10,111 @@ import numpy as np
 from numpy import pi
 import matplotlib.pyplot as plt
 from math import *
-mean = 0
-sigma = 1
-size = 15
-dist = np.zeros(size)
-dist2 = np.zeros(size)
+mean = 1
+sigma = 20
+size = 10000
+dist = np.ones(size)
+dist2 = np.ones(size)
 
-x = np.zeros(size)
+plotx = np.ones(size)
+x = np.ones(size)
+y = np.ones(size)
+z = np.ones(size)
+u = np.ones(size)
+
 
 for i in range(len(dist)):
-    x[i] = i+1
+    plotx[i] = i+1
     i+1
 
     # Method 1
-for i in range(len(dist)-1):
-    x1 = np.random.uniform()
-    x2 = np.random.uniform()
+# for i in range(len(dist)-1):
+#     x[i] = np.random.uniform()
+#     x[i+1] = np.random.uniform()
+#     print(x)
+#
+#     y[i] = sqrt(-2*np.log(x[i]))*np.cos(2*pi*x[i+1])
+#     y[i] = sqrt(-2*np.log(x[i]))*np.sin(2*pi*x[i+1])
+#
+#     z[i] = mean + sigma*y[i]
+#     z[i+1] = mean + sigma*y[i+1]
+#     dist[i] = z[i]
+#     dist[i+1] = z[i+1]
+#     i = i+1
+# # print(dist)
 
-    y1 = sqrt(-2*np.log(x1))*np.cos(2*pi*x2)
-    y2 = sqrt(-2*np.log(x1))*np.sin(2*pi*x2)
 
-    z1 = mean + sigma*y1
-    z2 = mean + sigma*y2
-    dist[i] = z1
-    dist[i+1] = z2
-    i = i+2
-# print(dist)
-
-# plt.hist(dist)
+# plt.hist(dist, 100)
 # plt.show()
 
 # Method 2
-for i in range(len(dist)-1):
-    x1 = np.random.uniform()
-    x2 = np.random.uniform()
+# fix so xi and xi+1 - MONTECARLO
+def RandomGen(size, mean, sigma):
+    dist = np.ones(size)
+    dist2 = np.ones(size)
 
-    u1 = (2*x1) -1
-    u2 = (2*x2)-1
+    plotx = np.ones(size)
+    x = np.ones(size)
+    y = np.ones(size)
+    z = np.ones(size)
+    u = np.ones(size)
 
-    d = u1**2 - u2**2
-    if d > 1:
-        u1 = 0
-        u2 = 0
-    elif  d < 0:
-        u1 = 0
-        u2 = 0
-    else:
-        y1 = u1*sqrt((-2*np.log(d))/d)
-        y2 = u2*sqrt((-2*np.log(d))/d)
 
-        z1 = mean + sigma*y1
-        z2 = mean + sigma*y2
-    dist2[i] = z1
-    dist2[i+1] = z2
-    i = i+2
+    for i in range(len(dist)):
+        plotx[i] = i+1
+        i+1
+    i = 0
+    for i in range(len(dist)-1):
+        x[i] = np.random.uniform()
+        x[i+1] = np.random.uniform()
 
-print(min(dist2), max(dist2), '\n' , dist2)
-# plt.hist(dist2)#, bins = 500)
+        u[i] = (2*x[i]) - 1
+        u[i+1] = (2*x[i+1]) - 1
+        d = u[i]**2 - u[i+1]**2
+        # print('FIRST D', d)
+        while d < 1e-2 or d > 1:
+            x[i] = np.random.uniform()
+            x[i+1] = np.random.uniform()
+
+            u[i] = (2*x[i]) - 1
+            u[i+1] = (2*x[i+1]) - 1
+            d = u[i]**2 - u[i+1]**2
+            # print('D VALUE:', d)
+
+        y[i] = u[i]*sqrt((-2*np.log(d))/d)
+        y[i+1] = u[i+1]*sqrt((-2*np.log(d))/d)
+        # print(y[i])
+        z[i] = mean + sigma*y[i]
+        z[i+1] = mean + sigma*y[i+1]
+    return z
+
+# print(z)
+# print(np.mean(z), np.max(z), np.min(z))
+# print(z)
+# plt.plot(plotx, z)
+# plt.plot(plotx, y)
+# plt.hist(z, 200)
+# plt.xlim([-100, 100])
 # plt.show()
+
+
+    # return z
+# RandomGen(100, 20)
+# def distribution(size, mu, sigma):
+#
+#     dist2 = np.ones(size)
+#     x = np.ones(size)
+#
+#     for i in range(len(x)):
+#         x[i] = i+1
+#         i+1
+#
+#     for i in range(len(dist2)):
+#         Dist = RandomGen(mu, sigma)
+#         while Dist == 0:
+#             Dist = RandomGen(mu,sigma)
+#         dist2[i] = Dist
+#         i = i+1
+#     return dist2, x
+
+# print(min(dist2), max(dist2), '\n' , dist2)
