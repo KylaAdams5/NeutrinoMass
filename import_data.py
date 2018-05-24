@@ -11,7 +11,7 @@ import pandas as pd
 def importData(dat):
 
 #### Set up the data to make plots and fits ###
-    data = pd.read_csv('/Users/kylaadams/UniMelbCourse/Computing/data_files/'+dat, sep = ',', header = 1, skipfooter = 11, engine = 'python', skip_blank_lines = 'True')
+    data = pd.read_csv('data_files/'+dat, sep = ',', header = 1, skipfooter = 11, engine = 'python', skip_blank_lines = 'True')
     # Create the counts array
     current = data.loc[:, ['Current']]
 
