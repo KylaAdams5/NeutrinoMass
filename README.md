@@ -1,4 +1,4 @@
-# Vigilante
+# Neutrino Mass
 ## PHYC9007 Art of Scientific Computing Repository
 ### Neutrino Project
 
