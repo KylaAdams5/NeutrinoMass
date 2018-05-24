@@ -3,6 +3,8 @@ Code to simulate a Neutrino Beam
 
 Kyla Adams
 
+Main steps outlined in both notebook and accompnaying report
+
 '''
 
 import numpy as np
@@ -16,82 +18,126 @@ m_kaon = 0.4937 #GeV/c^2
 m_muon = 0.1057 # GeV/c^2
 tau_pion = 2.608*1e-8 #s
 tau_kaon = 1.237*1e-8 #s
-t_pion = -tau_pion * np.log(np.random.uniform(0, 1, 860))
-t_kaon = -tau_kaon * np.log(np.random.uniform(0, 1, 140))
+c = 2.9e8 #m/s
 
-c = 2.9*1e8 #m/s adjust for units
+initialpion = 86000 # percentage of beam pions
+initialkaon = 14000 # percentage of beam Kaons
+mean = 200
+std = 10
+# calculated the lab frame time
+t_pion = -tau_pion * np.log(np.random.uniform(0, 1, initialpion))
+t_kaon = -tau_kaon * np.log(np.random.uniform(0, 1, initialkaon))
+
 
 # Randomly generate the disributions for both the pions and kaons
-MomentaDistributionPion = RandomGen(860, 200, 10)
-MomentaDistributionKaon = RandomGen(140, 200, 10)
+MomentaDistributionPion = RandomGen(initialpion, mean, std)
+MomentaDistributionKaon = RandomGen(initialkaon, mean, std)
 
 # set as array to make easier to call in notebook
 MomentaDistribution = (MomentaDistributionPion, MomentaDistributionKaon)
 
-# Calculate the decay distance of the mesons
-distancePion = (MomentaDistributionPion/m_pion) * c * t_pion
-distanceKaon = (MomentaDistributionKaon/m_kaon) * c * t_kaon
-
-# again set as array to make life easier
-distance = [distancePion, distanceKaon]
-
-#Check values
-print('Pion Dist', np.mean(MomentaDistributionPion), '\n Kaon Dist', np.mean(MomentaDistributionKaon))
-
-print('Pion distance', np.mean(distancePion), '\n Kaon distance', np.mean(distanceKaon))
-
-
-# Calculate the decay distances of the neutrinos
-#longitudinal momentum
-pRestPion = (m_pion**2 - m_muon**2)/(2*m_pion)
-pRestKaon = (m_kaon**2 - m_muon**2)/(2*m_kaon)
-print('rest', pRestKaon, pRestPion)
-theta = np.random.uniform(-1, 1, 860)
-
-plPion = np.abs(pRestPion)*np.cos(theta)
-ptPion = np.abs(pRestPion)*np.sin(theta)
-
-plKaon = np.abs(pRestKaon)*np.cos(theta)
-ptKaon = np.abs(pRestKaon)*np.sin(theta)
-
-longitudeMomenta = [plPion, plKaon]
-transverseMomenta = [ptPion, ptKaon]
-
+# calculate the relevant components for Lorentz Transformation
 betaPion = np.abs(MomentaDistributionPion)/(np.sqrt(MomentaDistributionPion**2 + m_pion**2))
 betaKaon = np.abs(MomentaDistributionKaon)/(np.sqrt(MomentaDistributionKaon**2 + m_kaon**2))
 
 gammaPion = 1/(np.sqrt(1-betaPion**2))
 gammaKaon = 1/(np.sqrt(1-betaKaon**2))
 
-E = np.abs(MomentaDistributionPion)
 betagammaPion = betaPion*gammaPion
-a = np.array([[gammaPion, 0, betagammaPion], [0,1,0], [betagammaPion, 0, gammaPion]])
-b = np.array([[plPion], [ptPion], [np.abs(MomentaDistributionPion)]])
-cMx = [(gammaPion*plPion + betagammaPion*E), (ptPion), ((betagammaPion*plPion)+ (gammaPion*E))]
+betagammaKaon = betaKaon*gammaKaon
 
+Epion = np.abs(MomentaDistributionPion)
+Ekaon = np.abs(MomentaDistributionKaon)
 
-sinthetaLab = np.abs(cMx[1])/cMx[2]
-print(sinthetaLab[0:10])
-print(ptPion[0:10])
+# Calculate the decay distances of the neutrinos
 
-detect = 0
-r = distancePion
-for i in range(len(distancePion)):
-    test = np.abs((distancePion[i] - 700))*(sinthetaLab[i])
+pRestPion = (m_pion**2 - m_muon**2)/(2*m_pion)
+pRestKaon = (m_kaon**2 - m_muon**2)/(2*m_kaon)
+
+#print('rest', pRestKaon, pRestPion) #un-comment to print in terminal
+thetaPion = np.random.uniform(-1, 1, initialpion)
+thetaKaon = np.random.uniform(-1, 1, initialkaon)
+
+#longitudinal and transverse pion momenta
+plPion = np.abs(pRestPion)*np.cos(thetaPion)
+ptPion = np.abs(pRestPion)*np.sin(thetaPion)
+
+#longitudinal and transverse pion momenta
+plKaon = np.abs(pRestKaon)*np.cos(thetaKaon)
+ptKaon = np.abs(pRestKaon)*np.sin(thetaKaon)
+
+#store as arrays to call in notebook
+longitudeMomenta = [plPion, plKaon]
+transverseMomenta = [ptPion, ptKaon]
+
+# Calculate the matrix elements of the transform
+aPion = np.array([[gammaPion, 0, betagammaPion], [0,1,0], [betagammaPion, 0, gammaPion]])
+aKaon = np.array([[gammaKaon, 0, betagammaKaon], [0,1,0], [betagammaKaon, 0, gammaKaon]])
+
+bPion = np.array([[plPion], [ptPion], [np.abs(MomentaDistributionPion)]])
+bKaon = np.array([[plKaon], [ptKaon], [np.abs(MomentaDistributionKaon)]])
+
+cMxPion = [(gammaPion*plPion + betagammaPion*Epion), (ptPion), ((betagammaPion*plPion)+ (gammaPion*Epion))]
+cMxKaon = [(gammaKaon*plKaon + betagammaKaon*Ekaon), (ptKaon), ((betagammaKaon*plKaon)+ (gammaKaon*Ekaon))]
+
+# Calculate the decay distance of the mesons
+# distancePion = (MomentaDistributionPion/m_pion) * t_pion * c
+# distanceKaon = (MomentaDistributionKaon/m_kaon) * t_kaon * c
+
+distancePion = (cMxPion[0]/m_pion) * t_pion * c
+distanceKaon = (cMxKaon[0]/m_kaon) * t_kaon * c
+
+# again set as array to make life easier
+distance = [distancePion, distanceKaon]
+
+#Check values (un-comment for terminal use)
+# print('Pion Dist', np.mean(MomentaDistributionPion), '\n Kaon Dist', np.mean(MomentaDistributionKaon))
+
+# print('Pion distance', np.mean(distancePion), '\n Kaon distance', np.mean(distanceKaon))
+
+# Determine whether the neutrino hits the detector plate
+
+sinthetaLabPion = np.abs(cMxPion[1])/cMxPion[2]
+sinthetaLabKaon = np.abs(cMxKaon[1])/cMxKaon[2]
+
+detectPion = 0
+detectKaon = 0
+transverseP = cMxPion[1]
+transverseK = cMxKaon[1]
+rpion = cMxPion[1]
+rkaon = cMxKaon[1]
+
+for i in range(len(transverseK)):
+    test = np.abs((transverseK[i] - 700))*(sinthetaLabKaon[i])
     if test <= 1.5:
-        detect = detect + 1
-        r[i] = test
+        detectKaon = detectKaon + 1
+        rkaon[i] = test
 
-print(detect, r[0:10])
-r = np.abs((distancePion - 700))*(sinthetaLab)
-plt.figure()
-plt.hist(r, bins = 100)
-plt.show()
+for i in range(len(transverseP)):
+    test = np.abs((transverseP[i] - 700))*(sinthetaLabPion[i])
+    if test < 1.5:
+        detectPion = detectPion + 1
+        rpion[i] = test
+
+def percentagedetect(pion= True, kaon=False):
+    if pion:
+        percentpion = detectPion/initialpion
+        print('Percentage Detected ', percentpion*100, '%')
+    if kaon:
+        percentkaon = detectKaon/initialkaon
+        print('Percentage Detected ', percentkaon*100, '%')
+
+# print("No. Detections kaon", detectKaon)
+# print("No. Detections Pion", detectPion)
+
+rK = np.abs((transverseK - 700))*(sinthetaLabKaon)
+rP = np.abs((transverseK - 700))*(sinthetaLabKaon)
+r = [rP, rK]
 
 ################################
 ######## Functions #############
 
-def plothist(dat, pion=True, kaon=False, Title = 'Momenta Distributions', binsize = 20, label = 'Momenta (GeV/c^2)'):
+def plothist(dat, pion=True, kaon=False, Title = 'Momenta Distributions ', binsize = 20, label = 'Momenta (GeV/c^2)'):
     '''Function to show histograms in the notebook '''
     if pion:
         print('Plotting the momenta distribution of decaying pions...')
@@ -106,9 +152,6 @@ def plothist(dat, pion=True, kaon=False, Title = 'Momenta Distributions', binsiz
     plt.legend()
     plt.show()
 
-
-# beta = np.abs(MomentaDistribution)/np.sqrt(MomentaDistribution**2 + m_pion**2)
-
 #Function to import data into notebook
 def outputDistributions():
     return (MomentaDistribution, distance)
@@ -116,9 +159,12 @@ def outputDistributions():
 def outputMomenta():
     return (longitudeMomenta, transverseMomenta)
 
+def outputRadius():
+    return r
+
 # Code to plot when just using the terminal
-plt.figure()
-plt.hist(distancePion/1e20, 20, label = 'Pion')
-plt.hist(distanceKaon, 20, label = 'Kaon')
-plt.legend()
+# plt.figure()
+# plt.hist(distancePion/1e20, 20, label = 'Pion')
+# plt.hist(distanceKaon, 20, label = 'Kaon')
+# plt.legend()
 # plt.show()

@@ -58,7 +58,6 @@ sum_y = 0
 for i in range(len(x)):
     sum_x = sum_x + x[i]
     sum_y = sum_y + y[i]
-# print('sum', sum_x, sum(x))
 
 #Find the mean using the predefined function len()
 mean_x = sum_x/len(x)
@@ -78,7 +77,6 @@ c = mean_y - (m*mean_x)
 # print('intercept', c)
 
 # Find the error in the values using the deviation from the actual data
-# Need to add the data errors to these and have a max dara error and min
 Error = 0
 for i in range(len(x)):
     Error = Error + (2*(y[i] - (m*x[i] + c))*(-x[i]))
@@ -93,10 +91,10 @@ for i in range(len(x)):
     xvariance = xvariance +  (x[i] - mean_x)**2
     yvariance = yvariance +  (y[i] - mean_y)**2
 
+#Calculating the variance inthe error
 xvariance = sqrt((1/len(x) * xvariance))
 yvariance = sqrt((1/len(y) * yvariance))
 
-# print('Variance is', xvariance, yvariance)
 
 xErrArray = [xvariance, xvariance, xvariance, xvariance]
 yErrArray = [yvariance, yvariance, yvariance, yvariance]
@@ -121,17 +119,6 @@ def plot(fitshow=True, linfit=True, Errorbar=True):
     plt.legend()
     plt.show()
 
-def slider():
-    w = widgets.IntSlider(
-    value=7,
-    min=-3,
-    max=10,
-    step=1,
-    description='My patience level:',
-    disabled=False,
-    continuous_update=True,
-    orientation='horizontal',
-    readout=True,
-    readout_format='d'
-        )
-    return(w)
+# Print the line fit values to the notebook
+def returnGradC():
+    return m,c

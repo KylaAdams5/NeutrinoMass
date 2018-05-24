@@ -33,5 +33,6 @@ def importData(dat):
 
     return(data, current, currentErr, counts, countCorr, B, BErr, p, E_totJ, E_totkeV, T, KurieVar, r, rErr)
 
+# Un-comment to print in terminal
 # data, current, currentErr, counts, countCorr, B, BErr, p, E_totJ, E_totkeV, T, KurieVar = importData('data_b_headers.csv')
 # print(data)
