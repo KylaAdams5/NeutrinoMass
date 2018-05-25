@@ -1,8 +1,8 @@
 # Neutrino Mass
-## PHYC9007 Art of Scientific Computing Repository
+## COMP90071 Art of Scientific Computing Repository
 ### Neutrino Project
 
-Vigilante is a code that shows the various methods to place constraints on the mass of the neutrino. These methods include experimental data and MonteCarlo Simulations.
+NeutrinoMass is a code that shows the various methods to place constraints on the mass of the neutrino. These methods include experimental data and MonteCarlo Simulations.
 It is written in Python and run in a Jupyter Notebook. 
 The notebook contains interactive code that allows the user to change plots and explore the effect of parameters on simulations. 
 
@@ -29,6 +29,6 @@ To install any of these packages ```conda install ``` or ```pip install ``` with
 To run the code in the terminal go to the directory where the Vigilante code was saved and run ```jupyter notebook NeutrinoMass.ipynb```
 
 ## Authors
-The project was written by Kyla Adams, based on the guidelines given by Innes Bigaran for the Masters unit PHYC9007 at the University of Melbourne.
+The project was written by Kyla Adams, based on the guidelines given by Innes Bigaran for the Masters unit COMP90072 at the University of Melbourne.
 Data was collected by Ines Bigaran and Michael Nee
 Nuclear building, David Caro. Feb 2018. 
