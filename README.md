@@ -24,7 +24,8 @@ Below is the list of packages that are needed, most are typically with any pytho
 
 To install any of these packages ```conda install ``` or ```pip install ``` with the desired package name after will work on most systems.
 
-To install the notebook open the terminal and in a clean git repository (```git init```) use the command ```git pull https://github.com/KylaAdams5/NeutrinoMass &```. The & allows the notebook to run in the background of the terminal.
+To install the notebook open the terminal and in a clean git repository (```git init```) use the command ```git pull https://github.com/KylaAdams5/NeutrinoMass &```. The ```&``` allows the notebook to run in the background of the terminal.
+To end the notebook in the terminal press ```fg``` then ```control + c```. 
 
 If the notebook already has been run press ```esc```, ```0```, ```c``` to clear all outputs.
 
