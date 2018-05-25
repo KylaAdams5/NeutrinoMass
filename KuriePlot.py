@@ -4,6 +4,8 @@ Kyla Adams
 Last Modified 21/3/18 5:15pm
 
 Code generate a Kurie plot from the data set as imported from import_data.py
+Only used in the Terminal, LineFit takes the preliminary data from this script to
+inform the choices for this data set.
 '''
 
 import numpy as np
