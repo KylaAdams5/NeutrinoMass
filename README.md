@@ -26,6 +26,8 @@ To install any of these packages ```conda install ``` or ```pip install ``` with
 
 To install the notebook open the terminal and in a clean git repository (```git init```) use the command ```git pull https://github.com/KylaAdams5/NeutrinoMass &```. The & allows the notebook to run in the background of the terminal.
 
+If the notebook already has been run press ```esc```, ```0```, ```c``` to clear all outputs.
+
 ## Running
 
 To run the code in the terminal go to the directory where the Neutrino Mass code was saved and run ```jupyter notebook NeutrinoMass.ipynb```
