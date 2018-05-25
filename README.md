@@ -8,7 +8,7 @@ The notebook contains interactive code that allows the user to change plots and 
 
 ## Prerequisites
 
-Vigilante should be run with Python version 3.6.3.
+NeutrinoMass should be run with Python version 3.6.3.
 
 ## Installing
 
