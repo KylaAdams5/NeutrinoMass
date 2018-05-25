@@ -24,9 +24,11 @@ Below is the list of packages that are needed, most are typically with any pytho
 
 To install any of these packages ```conda install ``` or ```pip install ``` with the desired package name after will work on most systems.
 
+To install the notebook open the terminal and in a clean git repository (```git init```) use the command ```git pull https://github.com/KylaAdams5/NeutrinoMass &```. The & allows the notebook to run in the background of the terminal.
+
 ## Running
 
-To run the code in the terminal go to the directory where the Vigilante code was saved and run ```jupyter notebook NeutrinoMass.ipynb```
+To run the code in the terminal go to the directory where the Neutrino Mass code was saved and run ```jupyter notebook NeutrinoMass.ipynb```
 
 ## Authors
 The project was written by Kyla Adams, based on the guidelines given by Innes Bigaran for the Masters unit COMP90072 at the University of Melbourne.
